@@ -56,3 +56,22 @@ def compute_bowling_stats(deliveries):
     )
 
     return bowling_stats
+
+
+
+#matches played
+def compute_matches_played(deliveries):
+    """
+    Calculate number of matches played by each player
+    """
+
+    matches_played = deliveries.groupby("batter")["match_id"].nunique()
+
+    matches_played = matches_played.reset_index()
+
+    matches_played.rename(columns={
+        "batter": "player",
+        "match_id": "matches_played"
+    }, inplace=True)
+
+    return matches_played
