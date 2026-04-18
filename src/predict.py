@@ -1,10 +1,18 @@
 import joblib
 import pandas as pd
+import os
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+auction_path = os.path.join(BASE_DIR, "models", "auction_price_model.pkl")
+match_path = os.path.join(BASE_DIR, "models", "match_winner_model.pkl")
+innings_path = os.path.join(BASE_DIR, "models", "innings_score_model.pkl")
 
 #load models
-auction_model = joblib.load("../models/auction_price_model.pkl")
-match_model = joblib.load("../models/match_winner_model.pkl")
-innings_model = joblib.load("../models/innings_score_model.pkl")
+auction_model = joblib.load(auction_path)
+match_model = joblib.load(match_path)
+innings_model = joblib.load(innings_path)
 
 
 def predict_auction_price(data: dict):
