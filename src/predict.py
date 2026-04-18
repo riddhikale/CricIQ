@@ -33,3 +33,17 @@ def predict_innings_score(data: dict):
 
     return prediction
 
+
+#testing
+if __name__ == "__main__":
+    test_player = {
+        "total_runs":2000,
+        "batting_average":35,
+        "strike_rate":140,
+        "total_wickets":10,
+        "bowling_economy":8,
+        "bowling_average":25,
+        "matches_played":80
+    }
+
+    print(predict_auction_price(test_player))
