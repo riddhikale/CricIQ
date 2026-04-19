@@ -91,21 +91,24 @@ with tab2:
         "Punjab Cricket Association Stadium"
     ]
 
-    team1 = st.selectbox("Team 1", teams)
-    team2 = st.selectbox("Team 2", teams, index=1)
+    team1 = st.selectbox("Team 1", ["Select Team"] + teams)
+    team2 = st.selectbox("Team 2", ["Select Team"] + teams)
 
     if team1 == team2:
-        st.error("Teams must be different")
+        st.error("❌ Teams must be different")
         st.stop()
 
     toss_winner = st.selectbox("Toss Winner", [team1, team2])
     toss_decision = st.selectbox("Toss Decision", ["bat", "field"])
 
     venue = st.selectbox("Venue", venues)
-
     season = st.number_input("Season", min_value=2008, max_value=2025, value=2025)
 
     if st.button("Predict Match Winner"):
+
+        if not venue:
+            st.warning("⚠️ Please select a venue")
+            st.stop()
 
         data = {
             f"team1_{team1}": 1,
@@ -122,5 +125,3 @@ with tab2:
             st.success(f"🏆 {team1} is likely to win")
         else:
             st.success(f"🏆 {team2} is likely to win")
-
-
