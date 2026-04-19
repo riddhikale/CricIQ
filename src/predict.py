@@ -13,6 +13,8 @@ innings_path = os.path.join(BASE_DIR, "models", "innings_score_model.pkl")
 auction_model = joblib.load(auction_path)
 match_model = joblib.load(match_path)
 innings_model = joblib.load(innings_path)
+match_columns_path = os.path.join(BASE_DIR, "models", "match_columns.pkl")
+match_columns = joblib.load(match_columns_path)
 
 
 def predict_auction_price(data: dict):
@@ -25,12 +27,18 @@ def predict_auction_price(data: dict):
 
 
 def predict_match_winner(data: dict):
-    "Predict match winner (1 = team1, 0 = team2)"
+    df = pd.DataFrame(columns=match_columns)
 
-    df = pd.DataFrame([data])
-    prediction = match_model.predict(df)[0]
+    #fill provided (already-encoded) keys
+    for k, v in data.items():
+        if k in df.columns:
+            df.loc[0, k] = v
 
-    return prediction
+    df.fillna(0, inplace=True)
+
+    pred = match_model.predict(df)[0]
+    return pred  
+    # 1 = team1, 0 = team2
 
 
 def predict_innings_score(data: dict):
@@ -55,3 +63,5 @@ if __name__ == "__main__":
     }
 
     print(predict_auction_price(test_player))
+
+
