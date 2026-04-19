@@ -30,6 +30,21 @@ with tab1:
     matches_played = st.number_input("Matches Played", 0)
 
     if st.button("Predict Price"):
+    
+        if (
+            total_runs == 0 and
+            batting_average == 0 and
+            strike_rate == 0 and
+            total_wickets == 0 and
+            matches_played == 0
+        ):
+            st.warning("⚠️ Enter player stats to get a meaningful prediction")
+            st.stop()
+
+        if matches_played == 0:
+            st.warning("⚠️ Player must have played at least 1 match")
+            st.stop()
+
         data = {
             "total_runs": total_runs,
             "batting_average": batting_average,
