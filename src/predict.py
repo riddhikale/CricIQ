@@ -8,6 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 auction_path = os.path.join(BASE_DIR, "models", "auction_price_model.pkl")
 match_path = os.path.join(BASE_DIR, "models", "match_winner_model.pkl")
 innings_path = os.path.join(BASE_DIR, "models", "innings_score_model.pkl")
+innings_columns_path = os.path.join(BASE_DIR, "models", "innings_columns.pkl")
 
 #load models
 auction_model = joblib.load(auction_path)
@@ -15,7 +16,7 @@ match_model = joblib.load(match_path)
 innings_model = joblib.load(innings_path)
 match_columns_path = os.path.join(BASE_DIR, "models", "match_columns.pkl")
 match_columns = joblib.load(match_columns_path)
-
+innings_columns = joblib.load(innings_columns_path)
 
 def predict_auction_price(data: dict):
     "Predict auction price from player stats"
@@ -42,12 +43,17 @@ def predict_match_winner(data: dict):
 
 
 def predict_innings_score(data: dict):
-    "Predict final innings score from powerplay data"
+    df = pd.DataFrame(columns=innings_columns)
 
-    df = pd.DataFrame([data])
+    for key, value in data.items():
+        if key in df.columns:
+            df.loc[0, key] = value
+
+    df.fillna(0, inplace=True)
+
     prediction = innings_model.predict(df)[0]
-
     return prediction
+
 
 
 #testing
