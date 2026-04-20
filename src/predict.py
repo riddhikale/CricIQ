@@ -43,16 +43,21 @@ def predict_match_winner(data: dict):
 
 
 def predict_innings_score(data: dict):
-    df = pd.DataFrame(columns=innings_columns)
+    try:
+        df = pd.DataFrame(columns=innings_columns)
 
-    for key, value in data.items():
-        if key in df.columns:
-            df.loc[0, key] = value
+        for key, value in data.items():
+            if key in df.columns:
+                df.loc[0, key] = value
 
-    df.fillna(0, inplace=True)
+        df.fillna(0, inplace=True)
 
-    prediction = innings_model.predict(df)[0]
-    return prediction
+        prediction = innings_model.predict(df)[0]
+        return prediction
+    
+    except Exception as e:
+        print("ERROR IN SCORE MODEL:", e)
+        return None
 
 
 

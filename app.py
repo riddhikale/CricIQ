@@ -134,3 +134,67 @@ with tab2:
 
 
 
+with tab3:
+    st.header("First Innings Score Predictor")
+    st.caption("Predict final score using powerplay performance and match conditions")
+
+    teams = [
+        "Mumbai Indians",
+        "Chennai Super Kings",
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Delhi Capitals",
+        "Punjab Kings",
+        "Rajasthan Royals",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans",
+        "Lucknow Super Giants"
+    ]
+
+    venues = [
+        "Wankhede Stadium",
+        "Eden Gardens",
+        "M Chinnaswamy Stadium",
+        "MA Chidambaram Stadium",
+        "Arun Jaitley Stadium",
+        "Narendra Modi Stadium",
+        "Sawai Mansingh Stadium",
+        "Rajiv Gandhi International Stadium",
+        "Punjab Cricket Association Stadium"
+    ]
+
+    team1 = st.selectbox("Batting Team", ["Select Team"] + teams, key="score_team1")
+    team2 = st.selectbox("Bowling Team", ["Select Team"] + teams, key="score_team2")
+
+    venue = st.selectbox("Venue", venues, key="score_venue")
+    season = st.number_input("Season", min_value=2008, max_value=2025, value=2025, key="score_season")
+
+    powerplay_runs = st.number_input("Powerplay Runs (Overs 1 to 6)", 0, key="score_runs")
+    powerplay_wickets = st.number_input("Powerplay Wickets", 0, key="score_wickets")
+
+    if st.button("Predict Score", key="predict_score"):
+
+        if team1 == "Select Team" or team2 == "Select Team":
+            st.warning("⚠️ Please select both teams")
+            st.stop()
+
+        if team1 == team2:
+            st.error("❌ Teams must be different")
+            st.stop()
+
+        if powerplay_runs == 0:
+            st.warning("⚠️ Enter realistic powerplay runs")
+            st.stop()
+
+        data = {
+            "powerplay_runs": powerplay_runs,
+            "powerplay_wickets": powerplay_wickets,
+            f"team1_{team1}": 1,
+            f"team2_{team2}": 1,
+            f"venue_{venue}": 1,
+            "season": season
+        }
+
+        score = predict_innings_score(data)
+
+        st.success(f"🎯 Predicted Score: {int(score)} runs")
