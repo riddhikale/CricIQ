@@ -29,7 +29,7 @@ with tab1:
     bowling_average = st.number_input("Bowling Average", 0.0)
     matches_played = st.number_input("Matches Played", 0)
 
-    if st.button("Predict Price"):
+    if st.button("Predict Price", key="predict_price"):
     
         if (
             total_runs == 0 and
@@ -94,22 +94,27 @@ with tab2:
     team1 = st.selectbox("Team 1", ["Select Team"] + teams)
     team2 = st.selectbox("Team 2", ["Select Team"] + teams)
 
-    if team1 == team2:
-        st.error("❌ Teams must be different")
-        st.stop()
-
-    toss_winner = st.selectbox("Toss Winner", [team1, team2])
+    toss_winner = st.selectbox("Toss Winner", ["Select Team", team1, team2])
     toss_decision = st.selectbox("Toss Decision", ["bat", "field"])
 
     venue = st.selectbox("Venue", venues)
-    season = st.number_input("Season", min_value=2008, max_value=2025, value=2025)
+    season = st.number_input("Season", 2008, 2025, value=2025)
 
-    if st.button("Predict Match Winner"):
+    if st.button("Predict Match Winner", key="match_btn"):
 
-        if not venue:
-            st.warning("⚠️ Please select a venue")
+        if team1 == "Select Team" or team2 == "Select Team":
+            st.warning("⚠️ Please select both teams")
             st.stop()
 
+        if team1 == team2:
+            st.error("❌ Teams must be different")
+            st.stop()
+
+        if toss_winner == "Select Team":
+            st.warning("⚠️ Select toss winner")
+            st.stop()
+
+        # ✅ DATA PREP
         data = {
             f"team1_{team1}": 1,
             f"team2_{team2}": 1,
@@ -125,3 +130,7 @@ with tab2:
             st.success(f"🏆 {team1} is likely to win")
         else:
             st.success(f"🏆 {team2} is likely to win")
+
+
+
+
