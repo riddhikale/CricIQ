@@ -18,31 +18,28 @@ tab1, tab2, tab3 = st.tabs([
 
 
 with tab1:
-    st.header("Auction Price Predictor")
-    st.caption("Predict player's auction price based on stats, role and performance history")
+    st.header("💰 Auction Price Predictor")
 
-    total_runs = st.number_input("Total Runs", 0)
-    batting_average = st.number_input("Batting Average", 0.0)
-    strike_rate = st.number_input("Strike Rate", 0.0)
-    total_wickets = st.number_input("Total Wickets", 0)
-    bowling_economy = st.number_input("Bowling Economy", 0.0)
-    bowling_average = st.number_input("Bowling Average", 0.0)
+    col1, col2 = st.columns(2)
+
+    with col1:
+        total_runs = st.number_input("Total Runs", 0)
+        batting_average = st.number_input("Batting Average", 0.0)
+        strike_rate = st.number_input("Strike Rate", 0.0)
+
+    with col2:
+        total_wickets = st.number_input("Total Wickets", 0)
+        bowling_economy = st.number_input("Bowling Economy", 0.0)
+        bowling_average = st.number_input("Bowling Average", 0.0)
+
     matches_played = st.number_input("Matches Played", 0)
 
-    if st.button("Predict Price", key="predict_price"):
-    
-        if (
-            total_runs == 0 and
-            batting_average == 0 and
-            strike_rate == 0 and
-            total_wickets == 0 and
-            matches_played == 0
-        ):
-            st.warning("⚠️ Enter player stats to get a meaningful prediction")
-            st.stop()
+    st.markdown("")
+
+    if st.button("🚀 Predict Auction Price", key="auction_btn"):
 
         if matches_played == 0:
-            st.warning("⚠️ Player must have played at least 1 match")
+            st.warning("⚠️ Enter valid player stats")
             st.stop()
 
         data = {
@@ -57,7 +54,7 @@ with tab1:
 
         price = predict_auction_price(data)
 
-        st.success(f"💰 Predicted Price: ₹ {price:,.0f} ({price/10000000:.2f} Cr)")
+        st.metric("💰 Estimated Price", f"₹ {price/10000000:.2f} Cr")
 
 
 
