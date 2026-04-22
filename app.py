@@ -104,7 +104,7 @@ with tab2:
     venue = st.selectbox("Venue", ["Select Venue"] + venues)
     season = st.number_input("📅 Season", 2008, 2025, value=2025)
 
-    if st.button("🔮 Predict Winner", key="match_btn"):
+    if st.button("🚀 Predict Winner", key="match_btn"):
 
         if team1 == "Select Team" or team2 == "Select Team":
             st.warning("⚠️ Please select both teams")
@@ -131,8 +131,60 @@ with tab2:
 
         winner = team1 if result == 1 else team2
 
-        st.metric("🚀 Predicted Winner", winner)
+        st.metric("🏆 Predicted Winner", winner)
 
 
+
+with tab3:
+    st.header("🎯 First Innings Score Predictor")
+    st.caption("Predict final score using powerplay performance and match conditions")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        team1 = st.selectbox("Batting Team", ["Select Team"] + teams, key="score_team1")
+        powerplay_runs = st.number_input("Powerplay Runs (Overs 1–6)", 0, key="score_runs")
+
+    with col2:
+        team2 = st.selectbox("Bowling Team", ["Select Team"] + teams, key="score_team2")
+        powerplay_wickets = st.number_input("Powerplay Wickets", 0, key="score_wickets")
+
+    venue = st.selectbox("Venue", ["Select Venue"] + venues, key="score_venue")
+    season = st.number_input("Season", 2008, 2025, value=2025, key="score_season")
+
+
+    if st.button("⚡ Predict Score", key="predict_score"):
+
+        if team1 == "Select Team" or team2 == "Select Team":
+            st.warning("⚠️ Please select both teams")
+            st.stop()
+
+        if team1 == team2:
+            st.error("❌ Teams must be different")
+            st.stop()
+
+        if venue == "Select Venue":
+            st.warning("⚠️ Please select venue")
+            st.stop()
+
+        if powerplay_runs == 0:
+            st.warning("⚠️ Powerplay runs must be greater than 0")
+            st.stop()
+
+        data = {
+            "powerplay_runs": powerplay_runs,
+            "powerplay_wickets": powerplay_wickets,
+            f"team1_{team1}": 1,
+            f"team2_{team2}": 1,
+            f"venue_{venue}": 1,
+            "season": season
+        }
+
+        score = predict_innings_score(data)
+
+        if score is None:
+            st.error("⚠️ Prediction failed. Check model input.")
+        else:
+            st.metric("🎯 Predicted Score", f"{int(score)} runs")
 
 
