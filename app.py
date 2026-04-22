@@ -9,6 +9,32 @@ st.set_page_config(page_title="CricPredictor", layout="wide")
 
 st.title("🏏 CricPredictor")
 
+teams = [
+    "Mumbai Indians",
+    "Chennai Super Kings",
+    "Royal Challengers Bengaluru",
+    "Kolkata Knight Riders",
+    "Delhi Capitals",
+    "Punjab Kings",
+    "Rajasthan Royals",
+    "Sunrisers Hyderabad",
+    "Gujarat Titans",
+    "Lucknow Super Giants"
+]
+
+venues = [
+    "Wankhede Stadium",
+    "Eden Gardens",
+    "M Chinnaswamy Stadium",
+    "MA Chidambaram Stadium",
+    "Arun Jaitley Stadium",
+    "Narendra Modi Stadium",
+    "Sawai Mansingh Stadium",
+    "Rajiv Gandhi International Stadium",
+    "Punjab Cricket Association Stadium"
+]
+
+
 tab1, tab2, tab3 = st.tabs([
     "💰 Auction Price",
     "🏆 Match Winner",
@@ -17,8 +43,10 @@ tab1, tab2, tab3 = st.tabs([
 
 
 
+
 with tab1:
     st.header("💰 Auction Price Predictor")
+    st.caption("Predict player's auction price based on stats, role and performance history")
 
     col1, col2 = st.columns(2)
 
@@ -60,44 +88,23 @@ with tab1:
 
 
 with tab2:
-    st.header("Match Winner Predictor")
+    st.header("🏆 Match Winner Predictor")
     st.caption("Predict match outcome based on teams, toss, and venue")
 
-    teams = [
-        "Mumbai Indians",
-        "Chennai Super Kings",
-        "Royal Challengers Bengaluru",
-        "Kolkata Knight Riders",
-        "Delhi Capitals",
-        "Punjab Kings",
-        "Rajasthan Royals",
-        "Sunrisers Hyderabad",
-        "Gujarat Titans",
-        "Lucknow Super Giants"
-    ]
+    col1, col2 = st.columns(2)
 
-    venues = [
-        "Wankhede Stadium",
-        "Eden Gardens",
-        "M Chinnaswamy Stadium",
-        "MA Chidambaram Stadium",
-        "Arun Jaitley Stadium",
-        "Narendra Modi Stadium",
-        "Sawai Mansingh Stadium",
-        "Rajiv Gandhi International Stadium",
-        "Punjab Cricket Association Stadium"
-    ]
+    with col1:
+        team1 = st.selectbox("Team 1", ["Select Team"] + teams)
+        toss_winner = st.selectbox("🪙 Toss Winner", ["Select Team", team1, team2 if 'team2' in locals() else ""])
 
-    team1 = st.selectbox("Team 1", ["Select Team"] + teams)
-    team2 = st.selectbox("Team 2", ["Select Team"] + teams)
+    with col2:
+        team2 = st.selectbox("Team 2", ["Select Team"] + teams)
+        toss_decision = st.selectbox("Toss Decision", ["bat", "field"])
 
-    toss_winner = st.selectbox("Toss Winner", ["Select Team", team1, team2])
-    toss_decision = st.selectbox("Toss Decision", ["bat", "field"])
+    venue = st.selectbox("Venue", ["Select Venue"] + venues)
+    season = st.number_input("📅 Season", 2008, 2025, value=2025)
 
-    venue = st.selectbox("Venue", venues)
-    season = st.number_input("Season", 2008, 2025, value=2025)
-
-    if st.button("Predict Match Winner", key="match_btn"):
+    if st.button("🔮 Predict Winner", key="match_btn"):
 
         if team1 == "Select Team" or team2 == "Select Team":
             st.warning("⚠️ Please select both teams")
@@ -111,7 +118,6 @@ with tab2:
             st.warning("⚠️ Select toss winner")
             st.stop()
 
-        # ✅ DATA PREP
         data = {
             f"team1_{team1}": 1,
             f"team2_{team2}": 1,
@@ -123,75 +129,10 @@ with tab2:
 
         result = predict_match_winner(data)
 
-        if result == 1:
-            st.success(f"🏆 {team1} is likely to win")
-        else:
-            st.success(f"🏆 {team2} is likely to win")
+        winner = team1 if result == 1 else team2
+
+        st.metric("🚀 Predicted Winner", winner)
 
 
 
 
-with tab3:
-    st.header("First Innings Score Predictor")
-    st.caption("Predict final score using powerplay performance and match conditions")
-
-    teams = [
-        "Mumbai Indians",
-        "Chennai Super Kings",
-        "Royal Challengers Bengaluru",
-        "Kolkata Knight Riders",
-        "Delhi Capitals",
-        "Punjab Kings",
-        "Rajasthan Royals",
-        "Sunrisers Hyderabad",
-        "Gujarat Titans",
-        "Lucknow Super Giants"
-    ]
-
-    venues = [
-        "Wankhede Stadium",
-        "Eden Gardens",
-        "M Chinnaswamy Stadium",
-        "MA Chidambaram Stadium",
-        "Arun Jaitley Stadium",
-        "Narendra Modi Stadium",
-        "Sawai Mansingh Stadium",
-        "Rajiv Gandhi International Stadium",
-        "Punjab Cricket Association Stadium"
-    ]
-
-    team1 = st.selectbox("Batting Team", ["Select Team"] + teams, key="score_team1")
-    team2 = st.selectbox("Bowling Team", ["Select Team"] + teams, key="score_team2")
-
-    venue = st.selectbox("Venue", venues, key="score_venue")
-    season = st.number_input("Season", min_value=2008, max_value=2025, value=2025, key="score_season")
-
-    powerplay_runs = st.number_input("Powerplay Runs (Overs 1 to 6)", 0, key="score_runs")
-    powerplay_wickets = st.number_input("Powerplay Wickets", 0, key="score_wickets")
-
-    if st.button("Predict Score", key="predict_score"):
-
-        if team1 == "Select Team" or team2 == "Select Team":
-            st.warning("⚠️ Please select both teams")
-            st.stop()
-
-        if team1 == team2:
-            st.error("❌ Teams must be different")
-            st.stop()
-
-        if powerplay_runs == 0:
-            st.warning("⚠️ Enter realistic powerplay runs")
-            st.stop()
-
-        data = {
-            "powerplay_runs": powerplay_runs,
-            "powerplay_wickets": powerplay_wickets,
-            f"team1_{team1}": 1,
-            f"team2_{team2}": 1,
-            f"venue_{venue}": 1,
-            "season": season
-        }
-
-        score = predict_innings_score(data)
-
-        st.success(f"🎯 Predicted Score: {int(score)} runs")
