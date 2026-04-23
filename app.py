@@ -5,9 +5,10 @@ from src.predict import (
     predict_innings_score
 )
 
-st.set_page_config(page_title="CricPredictor", layout="wide")
+st.set_page_config(page_title="CricIQ", layout="wide")
 
-st.title("🏏 CricPredictor")
+
+st.title("🏏CricIQ")
 
 teams = [
     "Mumbai Indians",
@@ -38,14 +39,13 @@ venues = [
 tab1, tab2, tab3 = st.tabs([
     "💰 Auction Price",
     "🏆 Match Winner",
-    "🎯 Score Predictor"
+    "🎯 First Innings Score"
 ])
 
 
 
 
 with tab1:
-    st.header("💰 Auction Price Predictor")
     st.caption("Predict player's auction price based on stats, role and performance history")
 
     col1, col2 = st.columns(2)
@@ -88,14 +88,13 @@ with tab1:
 
 
 with tab2:
-    st.header("🏆 Match Winner Predictor")
     st.caption("Predict match outcome based on teams, toss, and venue")
 
     col1, col2 = st.columns(2)
 
     with col1:
         team1 = st.selectbox("Team 1", ["Select Team"] + teams)
-        toss_winner = st.selectbox("🪙 Toss Winner", ["Select Team", team1, team2 if 'team2' in locals() else ""])
+        toss_winner = st.selectbox("Toss Winner", ["Select Team", team1, team2 if 'team2' in locals() else ""])
 
     with col2:
         team2 = st.selectbox("Team 2", ["Select Team"] + teams)
@@ -136,7 +135,6 @@ with tab2:
 
 
 with tab3:
-    st.header("🎯 First Innings Score Predictor")
     st.caption("Predict final score using powerplay performance and match conditions")
 
     col1, col2 = st.columns(2)
