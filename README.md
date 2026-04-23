@@ -1,16 +1,16 @@
 # 🏏 CricIQ — Cricket Analytics & Prediction Platform
 
-🚀 Live App: https://criciq-6imtd47rte9gqxzlyhyeqg.streamlit.app/
+Live App: https://criciq-6imtd47rte9gqxzlyhyeqg.streamlit.app/
 
-CricIQ is a machine learning-powered cricket analytics platform that provides real-time predictions for IPL matches, player auction prices, and first innings scores.
+CricIQ is a ML-powered cricket analytics platform that provides real-time predictions for IPL matches, player auction prices, and first innings scores.
 
 Built using Python and deployed on Streamlit Cloud, the app transforms raw cricket data into actionable insights through interactive predictions.
 
 ---
 
-## ✨ Features
+## Features
 
-### 💰 Auction Price Predictor
+### Auction Price Predictor
 
 Predicts a player's IPL auction price using:
 
@@ -23,7 +23,7 @@ Predicts a player's IPL auction price using:
 
 ---
 
-### 🏆 Match Winner Predictor
+### Match Winner Predictor
 
 Predicts match outcome based on:
 
@@ -34,7 +34,7 @@ Predicts match outcome based on:
 
 ---
 
-### 🎯 First Innings Score Predictor
+### First Innings Score Predictor
 
 Estimates final score using:
 
@@ -44,7 +44,7 @@ Estimates final score using:
 
 ---
 
-## 🧠 Machine Learning Models
+## Machine Learning Models
 
 - Auction Price Predictor → Regression (Linear, Ridge, Random Forest)
 - Match Winner Predictor → Classification (Logistic Regression, Random Forest)
@@ -52,7 +52,7 @@ Estimates final score using:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Python
 - Streamlit
@@ -63,42 +63,45 @@ Estimates final score using:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
+<pre>
 IPL-Analysis/
 │
 ├── app.py
 ├── requirements.txt
+│
 ├── models/
-│ ├── auction_price_model.pkl
-│ ├── match_winner_model.pkl
-│ ├── innings_score_model.pkl
-│ ├── match_columns.pkl
-│ ├── innings_columns.pkl
+│   ├── auction_price_model.pkl
+│   ├── match_winner_model.pkl
+│   ├── innings_score_model.pkl
+│   ├── match_columns.pkl
+│   └── innings_columns.pkl
 │
 ├── src/
-│ └── predict.py
+│   └── predict.py
 │
 └── notebooks/
-├── 01_eda.ipynb
-├── 02_ml_auction_price.ipynb
-├── 03_ml_match_winner.ipynb
-└── 04_ml_innings_score.ipynb
+    ├── 01_eda.ipynb
+    ├── 02_ml_auction_price.ipynb
+    ├── 03_ml_match_winner.ipynb
+    └── 04_ml_innings_score.ipynb
+</pre>
 
 ---
 
-## ⚙️ How to Run Locally
+## How to Run Locally
 
 git clone https://github.com/riddhikale/CricIQ.git
 
-cd your-repo
+cd CricIQ
 
 pip install -r requirements.txt
 streamlit run app.py
 
 ---
 
-## 🧪 Key Highlights
+## Key Highlights
 
 - Built 3 end-to-end ML models using IPL data
 - Performed feature engineering from ball-by-ball dataset
@@ -107,11 +110,11 @@ streamlit run app.py
 
 ---
 
-## 📈 Future Improvements
+## Future Improvements
 
 - Add confidence scores
 - Improve model accuracy
 - Integrate live match data
 - Add player comparison dashboard
 
-## ⭐ If you like this project, give it a star!
+### ⭐ If you like this project, give it a star!
