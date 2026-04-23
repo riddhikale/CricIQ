@@ -1,10 +1,11 @@
-# 🏏 CricIQ — Cricket Analytics & Prediction Platform
+# 🏏 CricIQ
 
-Live App: https://criciq-6imtd47rte9gqxzlyhyeqg.streamlit.app/
-
+Cricket Analytics & Prediction Platform
 CricIQ is a ML-powered cricket analytics platform that provides real-time predictions for IPL matches, player auction prices, and first innings scores.
 
 Built using Python and deployed on Streamlit Cloud, the app transforms raw cricket data into actionable insights through interactive predictions.
+
+Live App: https://criciq-6imtd47rte9gqxzlyhyeqg.streamlit.app/
 
 ---
 
